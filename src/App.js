@@ -1,16 +1,16 @@
-import './App.css';
-import Dogs from "./Dogs";
-import Header from "./Header";
-import Footer from "./Footer";
+import "./App.css";
+import Header from "./components/Header/Header";
+import Navbar from "./components/Navbar/Navbar";
+import Profile from "./components/Profile/Profile";
 
 const App = () => {
-  return (
-      <div>
-        <Header />
-        <Dogs />
-        <Footer />
-      </div>
-  );
+    return (
+        <div className="app-wrapper">
+            <Header/>
+            <Navbar/>
+            <Profile/>
+        </div>
+    );
 }
 
 export default App;
