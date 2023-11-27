@@ -1,17 +1,16 @@
 import classes from "./Profile.module.css";
-import MyPosts from "./MyPosts/MyPosts"
+import MyPosts from "./MyPosts/MyPosts";
+import ProfileInfo from "./ProfileInfo/ProfileInfo"
 
-const Profile = () => {
+
+const Profile = (props) => {
     return (
         <div className={classes.content}>
-            <div className={classes.header_image}>
-                <img className={classes.logo}
-                     src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQqKIS4-riJ4ZgDKMK0Oh2qapWQJ2rwDfKEtA&usqp=CAU"/>
-            </div>
-            <div>
-                ava + description
-            </div>
-            <MyPosts/>
+            <ProfileInfo />
+            <MyPosts posts={props.posts}
+                     addPost={props.addPost}
+                     updatePost={props.updatePost}
+                     tempTextPost={props.tempTextPost} />
         </div>
     );
 }
