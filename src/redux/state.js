@@ -1,4 +1,4 @@
-import {rerenderTree} from "./../render"
+import {rerenderTree} from "../render"
 
 let state = {
     dialogsPage: {
@@ -32,7 +32,8 @@ export let addPost = () => {
         likesCount: 0
     };
 
-    state.profilePage.posts.push(newPost);
+    state.profilePage.posts.push(newPost)
+    state.profilePage.tempPostText = "";
     rerenderTree(state);
 }
 
