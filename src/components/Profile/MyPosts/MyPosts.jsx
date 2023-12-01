@@ -1,29 +1,28 @@
+import React from "react";
 import classes from "./MyPosts.module.css";
 import Post from "./Post/Post";
-import React from "react";
 
 const MyPosts = (props) => {
 
     const posts = props.posts.map(post => (<Post message={post.message}
-                                                 likesCount={post.likesCount}/>));
-
-    let newPostElement = React.createRef();
+                                                 likesCount={post.likesCount}
+                                                 key={post.id}/>));
 
     const addPost = () => {
         props.addPost();
     };
 
-    const updatePost = () => {
-        let text = newPostElement.current.value;
-        props.updatePost(text);
+    const updatePost = (event) => {
+        let textPost = event.target.value;
+        props.updatePost(textPost);
     };
 
     return (
         <div className={classes.myPosts}>
             <h2>My posts</h2>
             <div className={classes.addPostBlock}>
-                <textarea ref={newPostElement}
-                          onChange={updatePost}></textarea>
+                <textarea onChange={updatePost}
+                          value={props.tempPostText}/>
             </div>
             <div className={classes.postManagment}>
                 <button onClick={addPost}>

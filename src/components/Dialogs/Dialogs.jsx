@@ -1,39 +1,37 @@
-import classes from "./Dialogs.module.css";
-import {NavLink} from "react-router-dom";
-import Dialog from "./Dialog/Dialog";
-import Message from "./Message/Message";
 import React from "react";
+import Dialog from "./Dialog/Dialog";
+import classes from "./Dialogs.module.css";
+import Message from "./Message/Message";
 
 const Dialogs = (props) => {
 
-    const dialogsArray = props.dialogs.map( dialog => (<Dialog name={dialog.name} id={dialog.id} />) );
-    const messages = props.messages.map(message => (<Message message={message.message} />));
-
-    let newMessageElement = React.createRef();
+    const dialogs = props.dialogs.map(dialog => (<Dialog name={dialog.name}
+                                                         id={dialog.id}
+                                                         key={dialog.id}/>));
+    const messages = props.messages.map(message => (<Message message={message.message}
+                                                             key={message.id}/>));
 
     const sendMessage = () => {
-        props.addMessage();
-        newMessageElement.current.value = "";
-    }
+        props.sendMessage();
+    };
 
-    const updateMessage = () => {
-        let textMessage = newMessageElement.current.value;
+    const updateMessage = (event) => {
+        let textMessage = event.target.value;
         props.updateMessage(textMessage);
-        newMessageElement.current.value = props.state.tempMessage;
-    }
+    };
 
     return (
         <div className={classes.dialogs}>
             <div className={classes.dialogsItems}>
-                { dialogsArray }
+                {dialogs}
             </div>
             <div className={classes.messages}>
                 {messages}
-                <div>
-                    <textarea ref={newMessageElement}
-                              onChange={updateMessage} ></textarea>
-                    <button onClick={sendMessage}>Send message</button>
-                </div>
+            </div>
+            <div>
+                <textarea onChange={updateMessage}
+                          value={props.tempMessage}/>
+                <button onClick={sendMessage}>Send message</button>
             </div>
         </div>
     );
