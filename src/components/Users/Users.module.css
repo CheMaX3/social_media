@@ -1,0 +1,8 @@
+.selectedPage {
+    font-weight: bold;
+    font-size: 22pt;
+}
+
+#page {
+    padding: 5px;
+}
