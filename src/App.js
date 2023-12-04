@@ -5,20 +5,21 @@ import Features from "./components/Features/Features";
 import Header from "./components/Header/Header";
 import Navbar from "./components/Navbar/Navbar";
 import News from "./components/News/News";
-import Profile from "./components/Profile/Profile";
 import Settings from "./components/Settings/Settings";
 import UsersContainer from "./components/Users/UsersContainer";
+import ProfileContainer from "./components/Profile/ProfileContainer";
+import HeaderContainer from "./components/Header/HeaderContainer";
 
 const App = () => {
 
     return (
         <div className="app-wrapper">
-            <Header/>
+            <HeaderContainer/>
             <Navbar/>
             <div className={"app-wrapper-content"}>
                 <Routes>
                     <Route path="/dialogs/*" element={<DialogsContainer/>}/>
-                    <Route path="/profile/*" element={<Profile/>}/>
+                    <Route path="/profile/:userId?" element={<ProfileContainer/>}/>
                     <Route path="/news" element={<News/>}/>
                     <Route path="/features" element={<Features/>}/>
                     <Route path="/settings" element={<Settings/>}/>

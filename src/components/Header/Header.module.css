@@ -6,3 +6,11 @@
 .logo {
     width: 100px;
 }
+
+.login_block a {
+    color:white;
+}
+
+.login_block {
+    float: right;
+}
