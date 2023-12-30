@@ -1,7 +1,7 @@
 import React from "react";
+import {NavLink} from "react-router-dom";
 import avatarStub from "./../../assets/images/avatar.png";
 import classes from "./Users.module.css";
-import {NavLink} from "react-router-dom";
 
 let Users = (props) => {
 
@@ -29,8 +29,12 @@ let Users = (props) => {
                     </div>
                     <div> {
                         user.followed
-                            ? <button onClick={() => props.unfollow(user.id)}>UNFOLLOW</button>
-                            : <button onClick={() => props.follow(user.id)}>FOLLOW</button>
+                            ? <button disabled={props.followToggleInProgress.some(id => id === user.id)} onClick={() => {
+                                props.unfollow(user.id);
+                            }}>UNFOLLOW</button>
+                            : <button disabled={props.followToggleInProgress.some(id => id === user.id)} onClick={() => {
+                                props.follow(user.id);
+                            }}>FOLLOW</button>
                     }
                     </div>
                     <div>

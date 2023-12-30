@@ -1,52 +1,44 @@
-import Profile from "./Profile";
-import axios from "axios";
-import {connect} from "react-redux";
-import {setUserProfile} from "../../redux/profileReducer";
 import React from "react";
-import {useLocation, useNavigate, useParams} from "react-router-dom";
+import {connect} from "react-redux";
+import {compose} from "redux";
+import {withAuthRedirect} from "../../hoc/withAuthRedirect";
+import withRouter from "../../hoc/withRouter";
+import {getUserProfile, getUserStatus, updateUserStatus} from "../../redux/profileReducer";
+import Profile from "./Profile";
 
 class ProfileContainer extends React.Component {
 
     componentDidMount() {
-        let userId = this.props.router.params.userId;
+        let userId = this.props.authorizedUserId;
         if (!userId) {
-            userId = 2;
+            this.props.history.push("/login")
         }
-        axios.get(`https://social-network.samuraijs.com/api/1.0/profile/` + userId)
-            .then(response => {
-                this.props.setUserProfile(response.data);
-            });
+        this.props.getUserProfile(userId);
+        this.props.getUserStatus(userId);
     }
 
     render() {
         return (
-            <Profile {...this.props}/>
-        );
-    }
-}
-
-let mapStateToProps = (state) => {
-    return {
-        profile: state.profilePage.profile
-    }
-}
-
-let ProfileContainerWithRouterWrapper = withRouter(ProfileContainer);
-
-function withRouter(ProfileContainer) {
-    function ProfileContainerWithRouterProp(props) {
-        let location = useLocation();
-        let navigate = useNavigate();
-        let params = useParams();
-        return (
-            <ProfileContainer
-                {...props}
-                router={{ location, navigate, params }}
+            <Profile {...this.props}
+                     profile={this.props.profile}
+                     updateUserStatus={this.props.updateUserStatus}
+                     status={this.props.status}
             />
         );
     }
-
-    return ProfileContainerWithRouterProp;
 }
 
-export default connect(mapStateToProps,{setUserProfile})(ProfileContainerWithRouterWrapper);
+
+let mapStateToProps = (state) => {
+    return {
+        profile: state.profilePage.profile,
+        status: state.profilePage.status,
+        authorizedUserId: state.auth.userId
+    }
+}
+
+export default compose(
+    connect(mapStateToProps, {getUserProfile, getUserStatus, updateUserStatus}),
+    withRouter,
+    withAuthRedirect
+)(ProfileContainer)
