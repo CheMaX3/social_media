@@ -8,13 +8,26 @@ import Profile from "./Profile";
 
 class ProfileContainer extends React.Component {
 
-    componentDidMount() {
-        let userId = this.props.authorizedUserId;
+    refreshProfile() {
+        let userId = this.props.router.params.userId;
         if (!userId) {
-            this.props.history.push("/login")
+            userId = this.props.authorizedUserId;
+            if (!userId) {
+                this.props.history.push("/login")
+            }
         }
         this.props.getUserProfile(userId);
         this.props.getUserStatus(userId);
+    }
+
+    componentDidMount() {
+        this.refreshProfile();
+    }
+
+    componentDidUpdate(prevProps, prevState, snapshot) {
+        if (this.props.router.params.userId !== prevProps.router.params.userId) {
+            this.refreshProfile();
+        }
     }
 
     render() {

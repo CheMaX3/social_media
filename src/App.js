@@ -4,17 +4,21 @@ import {Route, Routes} from "react-router-dom";
 import {compose} from "redux";
 import "./App.css";
 import Preloader from "./components/common/Preloader/Preloader";
-import DialogsContainer from "./components/Dialogs/DialogsContainer.jsx";
 import Features from "./components/Features/Features";
 import HeaderContainer from "./components/Header/HeaderContainer";
 import Login from "./components/Login/Login";
 import Navbar from "./components/Navbar/Navbar";
 import News from "./components/News/News";
-import ProfileContainer from "./components/Profile/ProfileContainer";
 import Settings from "./components/Settings/Settings";
 import UsersContainer from "./components/Users/UsersContainer";
 import withRouter from "./hoc/withRouter";
 import {initialize} from "./redux/appReducer";
+
+const DialogsContainer =
+    React.lazy(() => import("./components/Dialogs/DialogsContainer.jsx"));
+
+const ProfileContainer =
+    React.lazy(() => import("./components/Profile/ProfileContainer"));
 
 class App extends Component {
 
@@ -32,15 +36,17 @@ class App extends Component {
                 <HeaderContainer/>
                 <Navbar/>
                 <div className={"app-wrapper-content"}>
-                    <Routes>
-                        <Route path="/dialogs/*" element={<DialogsContainer/>}/>
-                        <Route path="/profile/:userId?" element={<ProfileContainer/>}/>
-                        <Route path="/news" element={<News/>}/>
-                        <Route path="/features" element={<Features/>}/>
-                        <Route path="/settings" element={<Settings/>}/>
-                        <Route path={"/users"} element={<UsersContainer/>}/>
-                        <Route path={"/login"} element={<Login/>}/>
-                    </Routes>
+                    <React.Suspense fallback={<div>Loading...</div>}>
+                        <Routes>
+                            <Route path="/dialogs/*" element={<DialogsContainer/>}/>
+                            <Route path="/profile/:userId?" element={<ProfileContainer/>}/>
+                            <Route path="/news" element={<News/>}/>
+                            <Route path="/features" element={<Features/>}/>
+                            <Route path="/settings" element={<Settings/>}/>
+                            <Route path={"/users"} element={<UsersContainer/>}/>
+                            <Route path={"/login"} element={<Login/>}/>
+                        </Routes>
+                    </React.Suspense>
                 </div>
             </div>
         );
