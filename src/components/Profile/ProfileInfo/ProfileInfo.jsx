@@ -8,11 +8,21 @@ const ProfileInfo = (props) => {
         return <Preloader/>
     }
 
+    const onAvatarSelected = (e) => {
+        if (e.target.files.length) {
+            const avatar = e.target.files[0];
+            props.savePhoto(avatar);
+        }
+    }
+
     return (
         <div>
             <div className={classes.descriptionBlock}>
                 <div>
                     <img className={classes.avatar} src={props.profile.photos.large || avatarStub}/>
+                </div>
+                <div>
+                    {props.isOwner && <input type={"file"} onChange={onAvatarSelected}/>}
                 </div>
                 <div>
                     {props.profile.aboutMe}
