@@ -2,6 +2,7 @@ import Preloader from "../../common/Preloader/Preloader";
 import classes from "./ProfileInfo.module.css";
 import ProfileStatusWithHooks from "./ProfileStatusWithHooks";
 import avatarStub from "../../../assets/images/avatar.png";
+import Contacts from "./Contacts";
 
 const ProfileInfo = (props) => {
     if (!props.profile) {
@@ -29,6 +30,24 @@ const ProfileInfo = (props) => {
                 </div>
                 <div>
                     <ProfileStatusWithHooks status={props.status} updateUserStatus={props.updateUserStatus}/>
+                </div>
+                <button>Send</button>
+                <div>
+                    <b>Looking for a job: </b> {props.profile.lookingForAJob ? "yes" : "no"}
+                </div>
+                {props.profile.lookingForAJob &&
+                    <div>
+                        <b>My skills: </b> {props.profile.lookingForAJobDescription}
+                    </div>}
+                <div>
+                    <b>Full name: </b> {props.profile.fullName}
+                </div>
+                <div>
+                    <b>Contacts</b> {Object.keys(props.profile.contacts).map(key => {
+                    return <div className={classes.contacts}>
+                        <Contacts contactTitle={key} contactValue={props.profile.contacts[key]}/>
+                    </div>
+                })}
                 </div>
             </div>
         </div>
