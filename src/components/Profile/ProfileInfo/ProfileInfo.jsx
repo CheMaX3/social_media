@@ -2,11 +2,26 @@ import Preloader from "../../common/Preloader/Preloader";
 import classes from "./ProfileInfo.module.css";
 import ProfileStatusWithHooks from "./ProfileStatusWithHooks";
 import avatarStub from "../../../assets/images/avatar.png";
-import Contacts from "./Contacts";
+import ProfileData from "./ProfileData";
+import React, {useState} from "react";
+import ProfileDataReduxForm from "./ProfileDataForm";
 
 const ProfileInfo = (props) => {
+    debugger;
     if (!props.profile) {
         return <Preloader/>
+    }
+
+    // eslint-disable-next-line react-hooks/rules-of-hooks
+    let [editMode, setEditMode] = useState(false);
+
+    const onSubmit = (formData) => {
+        props.saveProfile(formData).then(
+            () => {
+                setEditMode(false);
+            }
+        );
+
     }
 
     const onAvatarSelected = (e) => {
@@ -26,29 +41,13 @@ const ProfileInfo = (props) => {
                     {props.isOwner && <input type={"file"} onChange={onAvatarSelected}/>}
                 </div>
                 <div>
-                    {props.profile.aboutMe}
-                </div>
-                <div>
                     <ProfileStatusWithHooks status={props.status} updateUserStatus={props.updateUserStatus}/>
                 </div>
-                <button>Send</button>
-                <div>
-                    <b>Looking for a job: </b> {props.profile.lookingForAJob ? "yes" : "no"}
-                </div>
-                {props.profile.lookingForAJob &&
-                    <div>
-                        <b>My skills: </b> {props.profile.lookingForAJobDescription}
-                    </div>}
-                <div>
-                    <b>Full name: </b> {props.profile.fullName}
-                </div>
-                <div>
-                    <b>Contacts</b> {Object.keys(props.profile.contacts).map(key => {
-                    return <div className={classes.contacts}>
-                        <Contacts contactTitle={key} contactValue={props.profile.contacts[key]}/>
-                    </div>
-                })}
-                </div>
+                {editMode
+                    ? <ProfileDataReduxForm initialValues={props.profile}
+                                            onSubmit={onSubmit}
+                                            profile={props.profile}/>
+                    : <ProfileData profile={props.profile} isOwner={props.isOwner} setEditMode={setEditMode}/>}
             </div>
         </div>
     );

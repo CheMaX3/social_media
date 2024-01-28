@@ -1,7 +1,7 @@
 const Contacts = (props) => {
     return (
         <div>
-            {props.contactTitle}: {props.contactValue}
+            <b>{props.contactTitle}:</b> {props.contactValue}
         </div>
     )
 }
